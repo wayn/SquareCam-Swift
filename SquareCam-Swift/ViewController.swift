@@ -190,17 +190,17 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureA
     // to detect features and for each draw the red square in a layer and set appropriate orientation
     func drawFaceBoxesForFeatures(features : NSArray, clap : CGRect, orientation : UIDeviceOrientation) {
         
-        var subLayers : NSArray = previewLayer.sublayers
-        var subLayersCount = subLayers.count
-        var currentSublayer = 0
-        var featuresCount = features.count
-        var currentFeature = 0
+        var sublayers : NSArray = previewLayer.sublayers
+        var sublayersCount : Int = sublayers.count
+        var currentSublayer : Int = 0
+        var featuresCount : Int = features.count
+        var currentFeature : Int = 0
         
         CATransaction.begin()
         CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
         
         // hide all the face layers
-        for layer in subLayers as [CALayer] {
+        for layer in sublayers as [CALayer] {
             if (layer.name == "FaceLayer") {
                 layer.hidden = true
             }
@@ -213,11 +213,100 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureA
         
         var parentFrameSize : CGSize = previewView.frame.size
         var gravity : NSString = previewLayer.videoGravity
+        
+        let previewBox : CGRect = ViewController.videoPreviewBoxForGravity(gravity, frameSize: parentFrameSize, apertureSize: clap.size)
+        
+        for ff in features as [CIFaceFeature] {
+            // find the correct position for the square layer within the previewLayer
+            // the feature box originates in the bottom left of the video frame.
+            // (Bottom right if mirroring is turned on)
+            var faceRect : CGRect = ff.bounds
+            
+            // flip preview width and height
+            var temp : CGFloat = faceRect.width
+            faceRect.size.width = faceRect.height
+            faceRect.size.height = temp
+            temp = faceRect.origin.x
+            faceRect.origin.x = faceRect.origin.y
+            faceRect.origin.y = temp
+            // scale coordinates so they fit in the preview box, which may be scaled
+            let widthScaleBy = previewBox.size.width / clap.size.height
+            let heightScaleBy = previewBox.size.height / clap.size.width
+            faceRect.size.width *= widthScaleBy
+            faceRect.size.height *= heightScaleBy
+            faceRect.origin.x *= widthScaleBy
+            faceRect.origin.y *= heightScaleBy
+            
+            faceRect = CGRectOffset(faceRect, previewBox.origin.x, previewBox.origin.y)
+            var featureLayer : CALayer? = nil
+            // re-use an existing layer if possible
+            while (featureLayer == nil) && (currentSublayer < sublayersCount) {
+                var currentLayer : CALayer = sublayers.objectAtIndex(currentSublayer++) as CALayer
+                var name : NSString = currentLayer.name
+                if name.isEqualToString("FaceLayer") {
+                    featureLayer = currentLayer;
+                    currentLayer.hidden = false
+                }
+            }
+            
+            // create a new one if necessary
+            if featureLayer == nil {
+                featureLayer = CALayer()
+                featureLayer?.contents = square.CGImage
+                featureLayer?.name = "FaceLayer"
+                previewLayer.addSublayer(featureLayer)
+            }
+            
+            featureLayer?.frame = faceRect
+            
+            currentFeature++
+        }
+        
+        CATransaction.commit()
     }
     
     // find where the video box is positioned within the preview layer based on the video size and gravity
-    func videoPreviewBoxForGravity(gravity : NSString, frameSize : CGSize, apertureSize : CGSize) {
+    class func videoPreviewBoxForGravity(gravity : NSString, frameSize : CGSize, apertureSize : CGSize) -> CGRect {
+        let apertureRatio : CGFloat = apertureSize.height / apertureSize.width
+        let viewRatio : CGFloat = frameSize.width / frameSize.height
         
+        var size : CGSize = CGSizeZero
+        if gravity.isEqualToString(AVLayerVideoGravityResizeAspectFill) {
+            if viewRatio > apertureRatio {
+                size.width = frameSize.width
+                size.height = apertureSize.width * (frameSize.width / apertureSize.height)
+            } else {
+                size.width = apertureSize.height * (frameSize.height / apertureSize.width)
+                size.height = frameSize.height
+            }
+        } else if gravity.isEqualToString(AVLayerVideoGravityResizeAspect) {
+            if viewRatio > apertureRatio {
+                size.width = apertureSize.height * (frameSize.height / apertureSize.width)
+                size.height = frameSize.height
+            } else {
+                size.width = frameSize.width
+                size.height = apertureSize.width * (frameSize.width / apertureSize.height)
+            }
+        } else if gravity.isEqualToString(AVLayerVideoGravityResize) {
+            size.width = frameSize.width
+            size.height = frameSize.height
+        }
+        
+        var videoBox : CGRect = CGRectZero
+        videoBox.size = size
+        if size.width < frameSize.width {
+            videoBox.origin.x = (frameSize.width - size.width) / 2;
+        } else {
+            videoBox.origin.x = (size.width - frameSize.width) / 2;
+        }
+        
+        if size.height < frameSize.height {
+            videoBox.origin.y = (frameSize.height - size.height) / 2;
+        } else {
+            videoBox.origin.y = (size.height - frameSize.height) / 2;
+        }
+        
+        return videoBox
     }
 }
 
