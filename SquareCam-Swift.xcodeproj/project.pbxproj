@@ -1,0 +1,433 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F04719451A557ABA00810BED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F04719441A557ABA00810BED /* AppDelegate.swift */; };
+		F04719471A557ABA00810BED /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F04719461A557ABA00810BED /* ViewController.swift */; };
+		F047194A1A557ABA00810BED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F04719481A557ABA00810BED /* Main.storyboard */; };
+		F047194C1A557ABA00810BED /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F047194B1A557ABA00810BED /* Images.xcassets */; };
+		F047194F1A557ABA00810BED /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F047194D1A557ABA00810BED /* LaunchScreen.xib */; };
+		F047195B1A557ABA00810BED /* SquareCam_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F047195A1A557ABA00810BED /* SquareCam_SwiftTests.swift */; };
+		F04719651A557B1400810BED /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F04719641A557B1400810BED /* AVFoundation.framework */; };
+		F04719671A557B2400810BED /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F04719661A557B2400810BED /* CoreImage.framework */; };
+		F04719691A557B6500810BED /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F04719681A557B6500810BED /* ImageIO.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F04719551A557ABA00810BED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F04719371A557ABA00810BED /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F047193E1A557ABA00810BED;
+			remoteInfo = "SquareCam-Swift";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		F047193F1A557ABA00810BED /* SquareCam-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SquareCam-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F04719431A557ABA00810BED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F04719441A557ABA00810BED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F04719461A557ABA00810BED /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F04719491A557ABA00810BED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F047194B1A557ABA00810BED /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		F047194E1A557ABA00810BED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		F04719541A557ABA00810BED /* SquareCam-SwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SquareCam-SwiftTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F04719591A557ABA00810BED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F047195A1A557ABA00810BED /* SquareCam_SwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareCam_SwiftTests.swift; sourceTree = "<group>"; };
+		F04719641A557B1400810BED /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		F04719661A557B2400810BED /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		F04719681A557B6500810BED /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F047193C1A557ABA00810BED /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F04719691A557B6500810BED /* ImageIO.framework in Frameworks */,
+				F04719671A557B2400810BED /* CoreImage.framework in Frameworks */,
+				F04719651A557B1400810BED /* AVFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F04719511A557ABA00810BED /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F04719361A557ABA00810BED = {
+			isa = PBXGroup;
+			children = (
+				F04719681A557B6500810BED /* ImageIO.framework */,
+				F04719661A557B2400810BED /* CoreImage.framework */,
+				F04719641A557B1400810BED /* AVFoundation.framework */,
+				F04719411A557ABA00810BED /* SquareCam-Swift */,
+				F04719571A557ABA00810BED /* SquareCam-SwiftTests */,
+				F04719401A557ABA00810BED /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F04719401A557ABA00810BED /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F047193F1A557ABA00810BED /* SquareCam-Swift.app */,
+				F04719541A557ABA00810BED /* SquareCam-SwiftTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F04719411A557ABA00810BED /* SquareCam-Swift */ = {
+			isa = PBXGroup;
+			children = (
+				F04719441A557ABA00810BED /* AppDelegate.swift */,
+				F04719461A557ABA00810BED /* ViewController.swift */,
+				F04719481A557ABA00810BED /* Main.storyboard */,
+				F047194B1A557ABA00810BED /* Images.xcassets */,
+				F047194D1A557ABA00810BED /* LaunchScreen.xib */,
+				F04719421A557ABA00810BED /* Supporting Files */,
+			);
+			path = "SquareCam-Swift";
+			sourceTree = "<group>";
+		};
+		F04719421A557ABA00810BED /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F04719431A557ABA00810BED /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F04719571A557ABA00810BED /* SquareCam-SwiftTests */ = {
+			isa = PBXGroup;
+			children = (
+				F047195A1A557ABA00810BED /* SquareCam_SwiftTests.swift */,
+				F04719581A557ABA00810BED /* Supporting Files */,
+			);
+			path = "SquareCam-SwiftTests";
+			sourceTree = "<group>";
+		};
+		F04719581A557ABA00810BED /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F04719591A557ABA00810BED /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F047193E1A557ABA00810BED /* SquareCam-Swift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F047195E1A557ABA00810BED /* Build configuration list for PBXNativeTarget "SquareCam-Swift" */;
+			buildPhases = (
+				F047193B1A557ABA00810BED /* Sources */,
+				F047193C1A557ABA00810BED /* Frameworks */,
+				F047193D1A557ABA00810BED /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SquareCam-Swift";
+			productName = "SquareCam-Swift";
+			productReference = F047193F1A557ABA00810BED /* SquareCam-Swift.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F04719531A557ABA00810BED /* SquareCam-SwiftTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F04719611A557ABA00810BED /* Build configuration list for PBXNativeTarget "SquareCam-SwiftTests" */;
+			buildPhases = (
+				F04719501A557ABA00810BED /* Sources */,
+				F04719511A557ABA00810BED /* Frameworks */,
+				F04719521A557ABA00810BED /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F04719561A557ABA00810BED /* PBXTargetDependency */,
+			);
+			name = "SquareCam-SwiftTests";
+			productName = "SquareCam-SwiftTests";
+			productReference = F04719541A557ABA00810BED /* SquareCam-SwiftTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F04719371A557ABA00810BED /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				TargetAttributes = {
+					F047193E1A557ABA00810BED = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					F04719531A557ABA00810BED = {
+						CreatedOnToolsVersion = 6.1.1;
+						TestTargetID = F047193E1A557ABA00810BED;
+					};
+				};
+			};
+			buildConfigurationList = F047193A1A557ABA00810BED /* Build configuration list for PBXProject "SquareCam-Swift" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F04719361A557ABA00810BED;
+			productRefGroup = F04719401A557ABA00810BED /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F047193E1A557ABA00810BED /* SquareCam-Swift */,
+				F04719531A557ABA00810BED /* SquareCam-SwiftTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F047193D1A557ABA00810BED /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F047194A1A557ABA00810BED /* Main.storyboard in Resources */,
+				F047194F1A557ABA00810BED /* LaunchScreen.xib in Resources */,
+				F047194C1A557ABA00810BED /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F04719521A557ABA00810BED /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F047193B1A557ABA00810BED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F04719471A557ABA00810BED /* ViewController.swift in Sources */,
+				F04719451A557ABA00810BED /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F04719501A557ABA00810BED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F047195B1A557ABA00810BED /* SquareCam_SwiftTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F04719561A557ABA00810BED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F047193E1A557ABA00810BED /* SquareCam-Swift */;
+			targetProxy = F04719551A557ABA00810BED /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		F04719481A557ABA00810BED /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F04719491A557ABA00810BED /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		F047194D1A557ABA00810BED /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F047194E1A557ABA00810BED /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F047195C1A557ABA00810BED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F047195D1A557ABA00810BED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F047195F1A557ABA00810BED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "SquareCam-Swift/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		F04719601A557ABA00810BED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "SquareCam-Swift/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		F04719621A557ABA00810BED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "SquareCam-SwiftTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SquareCam-Swift.app/SquareCam-Swift";
+			};
+			name = Debug;
+		};
+		F04719631A557ABA00810BED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "SquareCam-SwiftTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SquareCam-Swift.app/SquareCam-Swift";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F047193A1A557ABA00810BED /* Build configuration list for PBXProject "SquareCam-Swift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F047195C1A557ABA00810BED /* Debug */,
+				F047195D1A557ABA00810BED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F047195E1A557ABA00810BED /* Build configuration list for PBXNativeTarget "SquareCam-Swift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F047195F1A557ABA00810BED /* Debug */,
+				F04719601A557ABA00810BED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F04719611A557ABA00810BED /* Build configuration list for PBXNativeTarget "SquareCam-SwiftTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F04719621A557ABA00810BED /* Debug */,
+				F04719631A557ABA00810BED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F04719371A557ABA00810BED /* Project object */;
+}
