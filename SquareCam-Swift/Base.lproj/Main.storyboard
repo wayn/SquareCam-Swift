@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -16,8 +17,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XlE-zs-uIp">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XlE-zs-uIp">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="xm2-ry-gDS"/>
+                                </constraints>
                                 <items>
                                     <barButtonItem style="plain" id="seD-0n-QjL">
                                         <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="gRG-Jp-7KU">
@@ -51,16 +55,26 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZpE-7L-EbG">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZpE-7L-EbG">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="0.76060265097906998" blue="0.54313118090519175" alpha="1" colorSpace="calibratedRGB"/>
                                 <gestureRecognizers/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="Lea-dn-O8Z" appends="YES" id="SEN-Re-caN"/>
                                 </connections>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.36247470643802926" green="1" blue="0.14006948965980881" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="ZpE-7L-EbG" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="topMargin" id="5I9-mx-ngV"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="XlE-zs-uIp" secondAttribute="trailing" constant="-16" id="9ZF-uF-v4L"/>
+                            <constraint firstItem="XlE-zs-uIp" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="AIG-yt-FHj"/>
+                            <constraint firstItem="XlE-zs-uIp" firstAttribute="top" secondItem="ZpE-7L-EbG" secondAttribute="bottom" id="BB0-R4-qtb"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="XlE-zs-uIp" secondAttribute="bottom" id="Q5Q-h2-U4O"/>
+                            <constraint firstItem="XlE-zs-uIp" firstAttribute="top" secondItem="ZpE-7L-EbG" secondAttribute="bottom" id="VOl-Br-GX3"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ZpE-7L-EbG" secondAttribute="trailing" constant="-16" id="XUp-if-uBZ"/>
+                            <constraint firstItem="ZpE-7L-EbG" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="Yu4-5g-IKx"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="camerasControl" destination="gRG-Jp-7KU" id="ZpV-q5-5E6"/>

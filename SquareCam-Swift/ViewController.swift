@@ -15,7 +15,7 @@ import CoreMedia
 import ImageIO
 import AssetsLibrary
 
-class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureAudioDataOutputSampleBufferDelegate {
+class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureVideoDataOutputSampleBufferDelegate {
     
     // used for KVO observation of the @"capturingStillImage" property to perform flash bulb animation
     let AVCaptureStillImageIsCapturingStillImageContext = "AVCaptureStillImageIsCapturingStillImageContext"
@@ -45,11 +45,15 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureA
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         
         setupAVCapture()
-        square = UIImage(named: "squarePNG")
+        square = UIImage(named: "squareBox")
         
-        var detectorOptions = [CIDetectorAccuracy: CIDetectorAccuracyLow]
+        var detectorOptions = [CIDetectorAccuracy: CIDetectorAccuracyHigh, CIDetectorTracking: true]
         faceDetector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options: detectorOptions)
     }
 
@@ -64,7 +68,26 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureA
     }
     
     @IBAction func switchCameras (sender : UISegmentedControl!) {
+        var desiredPosition : AVCaptureDevicePosition
+        desiredPosition = isUsingFrontFacingCamera == true ? AVCaptureDevicePosition.Back : AVCaptureDevicePosition.Front
         
+        for d in AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo) as [AVCaptureDevice] {
+            
+            if d.position == desiredPosition {
+                
+                previewLayer.session.beginConfiguration()
+                
+                var input : AVCaptureDeviceInput = AVCaptureDeviceInput.deviceInputWithDevice(d, error: nil) as AVCaptureDeviceInput
+                for oldInput in previewLayer.session.inputs as [AVCaptureInput] {
+                    previewLayer.session.removeInput(oldInput)
+                }
+                
+                previewLayer.session.addInput(input)
+                previewLayer.session.commitConfiguration()
+            }
+        }
+        
+        isUsingFrontFacingCamera = !isUsingFrontFacingCamera
     }
     
     @IBAction func handlePinchGesture (sender : UIGestureRecognizer!) {
@@ -72,7 +95,14 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureA
     }
     
     @IBAction func toggleFaceDetection (sender : UISwitch!) {
-        
+        detectFaces = sender.on
+        videoDataOutput.connectionWithMediaType(AVMediaTypeVideo).enabled = detectFaces
+        if !detectFaces {
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.drawFaceBoxesForFeatures([], clap: CGRectZero, orientation: UIDeviceOrientation.Portrait)
+            })
+        }
     }
     
     // Setup functions
@@ -89,6 +119,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureA
         var deviceInput : AVCaptureDeviceInput = AVCaptureDeviceInput.deviceInputWithDevice(device, error:&error) as AVCaptureDeviceInput
         
         isUsingFrontFacingCamera = false
+        detectFaces = false
         
         if session.canAddInput(deviceInput) {
             session.addInput(deviceInput)
@@ -104,10 +135,13 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureA
         videoDataOutput.videoSettings = rgbOutputSettings
         videoDataOutput.alwaysDiscardsLateVideoFrames = true
         
+        videoDataOutputQueue = dispatch_queue_create("VideoDataOutputQueue", DISPATCH_QUEUE_SERIAL)
+        videoDataOutput.setSampleBufferDelegate(self, queue: videoDataOutputQueue)
+        
         if session.canAddOutput(videoDataOutput) {
             session.addOutput(videoDataOutput)
         }
-        videoDataOutput.connectionWithMediaType(AVMediaTypeVideo).enabled = true
+        videoDataOutput.connectionWithMediaType(AVMediaTypeVideo).enabled = false
         
         effectiveScale = 1.0
         
@@ -171,7 +205,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureA
             exifOrientation = DeviceOrientation.PHOTOS_EXIF_0ROW_RIGHT_0COL_TOP.rawValue
         }
         
-        var imageOptions : NSDictionary = [CIDetectorImageOrientation : NSNumber(integer: exifOrientation)]
+        var imageOptions : NSDictionary = [CIDetectorImageOrientation : NSNumber(integer: exifOrientation), CIDetectorSmile : true, CIDetectorEyeBlink : true]
         
         var features = faceDetector.featuresInImage(ciImage, options: imageOptions)
         
@@ -201,7 +235,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureA
         
         // hide all the face layers
         for layer in sublayers as [CALayer] {
-            if (layer.name == "FaceLayer") {
+            if (layer.name != nil && layer.name == "FaceLayer") {
                 layer.hidden = true
             }
         }
@@ -241,7 +275,12 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureA
             var featureLayer : CALayer? = nil
             // re-use an existing layer if possible
             while (featureLayer == nil) && (currentSublayer < sublayersCount) {
+                
                 var currentLayer : CALayer = sublayers.objectAtIndex(currentSublayer++) as CALayer
+                
+                if currentLayer.name == nil {
+                    continue
+                }
                 var name : NSString = currentLayer.name
                 if name.isEqualToString("FaceLayer") {
                     featureLayer = currentLayer;
