@@ -28,6 +28,9 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
     
     @IBOutlet weak var previewView : UIView!
     @IBOutlet weak var camerasControl : UISegmentedControl!
+    @IBOutlet weak var eyeLeftLabel : UILabel!
+    @IBOutlet weak var eyeRightLabel : UILabel!
+    @IBOutlet weak var mouthLabel : UILabel!
     
     var previewLayer : AVCaptureVideoPreviewLayer!
     var videoDataOutput : AVCaptureVideoDataOutput!
@@ -251,6 +254,26 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
         let previewBox : CGRect = ViewController.videoPreviewBoxForGravity(gravity, frameSize: parentFrameSize, apertureSize: clap.size)
         
         for ff in features as [CIFaceFeature] {
+            // set text on label
+            var x : CGFloat = 0.0, y : CGFloat = 0.0
+            if ff.hasLeftEyePosition {
+                x = ff.leftEyePosition.x
+                y = ff.leftEyePosition.y
+                eyeLeftLabel.text = ff.leftEyeClosed ? "(\(x) \(y))" : "(\(x) \(y))" + "👀"
+            }
+            
+            if ff.hasRightEyePosition {
+                x = ff.rightEyePosition.x
+                y = ff.rightEyePosition.y
+                eyeRightLabel.text = ff.rightEyeClosed ? "(\(x) \(y))" : "(\(x) \(y))" + "👀"
+            }
+            
+            if ff.hasMouthPosition {
+                x = ff.mouthPosition.x
+                y = ff.mouthPosition.y
+                mouthLabel.text = ff.hasSmile ? "\(x) \(y)" + "😊" : "(\(x) \(y))"
+            }
+            
             // find the correct position for the square layer within the previewLayer
             // the feature box originates in the bottom left of the video frame.
             // (Bottom right if mirroring is turned on)
