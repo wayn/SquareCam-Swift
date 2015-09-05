@@ -57,7 +57,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
         square = UIImage(named: "squareBox")
         
         var detectorOptions = [CIDetectorAccuracy: CIDetectorAccuracyHigh, CIDetectorTracking: true]
-        faceDetector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options: detectorOptions)
+        faceDetector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options: detectorOptions as [NSObject : AnyObject])
     }
 
     override func didReceiveMemoryWarning() {
@@ -74,14 +74,14 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
         var desiredPosition : AVCaptureDevicePosition
         desiredPosition = isUsingFrontFacingCamera == true ? AVCaptureDevicePosition.Back : AVCaptureDevicePosition.Front
         
-        for d in AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo) as [AVCaptureDevice] {
+        for d in AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo) as! [AVCaptureDevice] {
             
             if d.position == desiredPosition {
                 
                 previewLayer.session.beginConfiguration()
                 
-                var input : AVCaptureDeviceInput = AVCaptureDeviceInput.deviceInputWithDevice(d, error: nil) as AVCaptureDeviceInput
-                for oldInput in previewLayer.session.inputs as [AVCaptureInput] {
+                var input : AVCaptureDeviceInput = AVCaptureDeviceInput.deviceInputWithDevice(d, error: nil) as! AVCaptureDeviceInput
+                for oldInput in previewLayer.session.inputs as! [AVCaptureInput] {
                     previewLayer.session.removeInput(oldInput)
                 }
                 
@@ -119,7 +119,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
         
         // Select a video device, make an input
         var device : AVCaptureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
-        var deviceInput : AVCaptureDeviceInput = AVCaptureDeviceInput.deviceInputWithDevice(device, error:&error) as AVCaptureDeviceInput
+        var deviceInput : AVCaptureDeviceInput = AVCaptureDeviceInput.deviceInputWithDevice(device, error:&error) as! AVCaptureDeviceInput
         
         isUsingFrontFacingCamera = false
         detectFaces = false
@@ -170,7 +170,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         // got an image
         let pixelBuffer : CVPixelBufferRef = CMSampleBufferGetImageBuffer(sampleBuffer)
-        let attachments : [NSObject: AnyObject] = CMCopyDictionaryOfAttachments(kCFAllocatorDefault, pixelBuffer, CMAttachmentMode( kCMAttachmentMode_ShouldPropagate)).takeRetainedValue()
+        let attachments : [NSObject: AnyObject] = CMCopyDictionaryOfAttachments(kCFAllocatorDefault, pixelBuffer, CMAttachmentMode( kCMAttachmentMode_ShouldPropagate)).takeRetainedValue() as [NSObject : AnyObject]
         
         let ciImage : CIImage = CIImage(CVPixelBuffer: pixelBuffer, options: attachments)
         
@@ -210,7 +210,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
         
         var imageOptions : NSDictionary = [CIDetectorImageOrientation : NSNumber(integer: exifOrientation), CIDetectorSmile : true, CIDetectorEyeBlink : true]
         
-        var features = faceDetector.featuresInImage(ciImage, options: imageOptions)
+        var features = faceDetector.featuresInImage(ciImage, options: imageOptions as [NSObject : AnyObject])
         
         // get the clean aperture
         // the clean aperture is a rectangle that defines the portion of the encoded pixel dimensions
@@ -237,7 +237,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
         CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
         
         // hide all the face layers
-        for layer in sublayers as [CALayer] {
+        for layer in sublayers as! [CALayer] {
             if (layer.name != nil && layer.name == "FaceLayer") {
                 layer.hidden = true
             }
@@ -253,7 +253,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
         
         let previewBox : CGRect = ViewController.videoPreviewBoxForGravity(gravity, frameSize: parentFrameSize, apertureSize: clap.size)
         
-        for ff in features as [CIFaceFeature] {
+        for ff in features as! [CIFaceFeature] {
             // set text on label
             var x : CGFloat = 0.0, y : CGFloat = 0.0
             if ff.hasLeftEyePosition {
@@ -299,7 +299,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
             // re-use an existing layer if possible
             while (featureLayer == nil) && (currentSublayer < sublayersCount) {
                 
-                var currentLayer : CALayer = sublayers.objectAtIndex(currentSublayer++) as CALayer
+                var currentLayer : CALayer = sublayers.objectAtIndex(currentSublayer++) as! CALayer
                 
                 if currentLayer.name == nil {
                     continue
