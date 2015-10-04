@@ -43,7 +43,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
     var faceDetector : CIDetector!
     var beginGestureScale : CGFloat!
     var effectiveScale : CGFloat!
-
+    
     // MARK: View Life Cycle
     
     override func viewDidLoad() {
@@ -56,14 +56,14 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
         setupAVCapture()
         square = UIImage(named: "squareBox")
         
-        var detectorOptions = [CIDetectorAccuracy: CIDetectorAccuracyHigh, CIDetectorTracking: true]
-        faceDetector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options: detectorOptions as [NSObject : AnyObject])
+        let detectorOptions = [CIDetectorAccuracy: CIDetectorAccuracyHigh, CIDetectorTracking: true]
+        faceDetector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options: detectorOptions as? [String : AnyObject])
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
+    
     // MARKS: Actions
     
     @IBAction func takePicture (sender : UIBarButtonItem!) {
@@ -80,7 +80,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
                 
                 previewLayer.session.beginConfiguration()
                 
-                var input : AVCaptureDeviceInput = AVCaptureDeviceInput.deviceInputWithDevice(d, error: nil) as! AVCaptureDeviceInput
+                let input : AVCaptureDeviceInput = try! AVCaptureDeviceInput(device: d)
+                
                 for oldInput in previewLayer.session.inputs as! [AVCaptureInput] {
                     previewLayer.session.removeInput(oldInput)
                 }
@@ -112,15 +113,12 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
     
     func setupAVCapture() {
         
-        var error : NSError?
-        
-        var session : AVCaptureSession = AVCaptureSession()
+        let session : AVCaptureSession = AVCaptureSession()
         session.sessionPreset = AVCaptureSessionPreset640x480
         
         // Select a video device, make an input
-        var device : AVCaptureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
-        var deviceInput : AVCaptureDeviceInput = AVCaptureDeviceInput.deviceInputWithDevice(device, error:&error) as! AVCaptureDeviceInput
-        
+        let device : AVCaptureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+        let deviceInput : AVCaptureDeviceInput = try! AVCaptureDeviceInput(device: device)
         isUsingFrontFacingCamera = false
         detectFaces = false
         
@@ -129,11 +127,11 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
         }
         
         stillImageOutput = AVCaptureStillImageOutput()
-
+        
         // Make a video data output
         videoDataOutput = AVCaptureVideoDataOutput()
         // we want BGRA, both CoreGraphics and OpenGL work well with 'BGRA'
-        var rgbOutputSettings = [kCVPixelBufferPixelFormatTypeKey as String: kCMPixelFormat_32BGRA as NSNumber]
+        let rgbOutputSettings = [kCVPixelBufferPixelFormatTypeKey as String: NSNumber(unsignedInt: kCMPixelFormat_32BGRA)]
         
         videoDataOutput.videoSettings = rgbOutputSettings
         videoDataOutput.alwaysDiscardsLateVideoFrames = true
@@ -151,7 +149,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
         previewLayer = AVCaptureVideoPreviewLayer(session: session)
         previewLayer.backgroundColor = UIColor.blackColor().CGColor
         previewLayer.videoGravity = AVLayerVideoGravityResizeAspect
-        var rootLayer : CALayer = previewView.layer
+        let rootLayer : CALayer = previewView.layer
         rootLayer.masksToBounds = true
         previewLayer.frame = rootLayer.bounds
         rootLayer.addSublayer(previewLayer)
@@ -164,15 +162,15 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
         previewLayer.removeFromSuperlayer()
         previewLayer = nil
     }
-
+    
     // MARK: Delegates
     
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         // got an image
-        let pixelBuffer : CVPixelBufferRef = CMSampleBufferGetImageBuffer(sampleBuffer)
-        let attachments : [NSObject: AnyObject] = CMCopyDictionaryOfAttachments(kCFAllocatorDefault, pixelBuffer, CMAttachmentMode( kCMAttachmentMode_ShouldPropagate)).takeRetainedValue() as [NSObject : AnyObject]
+        let pixelBuffer : CVPixelBufferRef = CMSampleBufferGetImageBuffer(sampleBuffer)!
+        let attachments : CFDictionaryRef = CMCopyDictionaryOfAttachments(kCFAllocatorDefault, pixelBuffer, CMAttachmentMode( kCMAttachmentMode_ShouldPropagate))!
         
-        let ciImage : CIImage = CIImage(CVPixelBuffer: pixelBuffer, options: attachments)
+        let ciImage : CIImage = CIImage(CVPixelBuffer: pixelBuffer, options: attachments as? [String : AnyObject])
         
         let curDeviceOrientation : UIDeviceOrientation = UIDevice.currentDevice().orientation
         var exifOrientation : Int
@@ -208,15 +206,15 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
             exifOrientation = DeviceOrientation.PHOTOS_EXIF_0ROW_RIGHT_0COL_TOP.rawValue
         }
         
-        var imageOptions : NSDictionary = [CIDetectorImageOrientation : NSNumber(integer: exifOrientation), CIDetectorSmile : true, CIDetectorEyeBlink : true]
+        let imageOptions : NSDictionary = [CIDetectorImageOrientation : NSNumber(integer: exifOrientation), CIDetectorSmile : true, CIDetectorEyeBlink : true]
         
-        var features = faceDetector.featuresInImage(ciImage, options: imageOptions as [NSObject : AnyObject])
+        let features = faceDetector.featuresInImage(ciImage, options: imageOptions as? [String : AnyObject])
         
         // get the clean aperture
         // the clean aperture is a rectangle that defines the portion of the encoded pixel dimensions
         // that represents image data valid for display.
-        var fdesc : CMFormatDescriptionRef = CMSampleBufferGetFormatDescription(sampleBuffer)
-        var clap : CGRect = CMVideoFormatDescriptionGetCleanAperture(fdesc, 0)
+        let fdesc : CMFormatDescriptionRef = CMSampleBufferGetFormatDescription(sampleBuffer)!
+        let clap : CGRect = CMVideoFormatDescriptionGetCleanAperture(fdesc, false)
         
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             self.drawFaceBoxesForFeatures(features, clap: clap, orientation: curDeviceOrientation)
@@ -227,10 +225,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
     // to detect features and for each draw the red square in a layer and set appropriate orientation
     func drawFaceBoxesForFeatures(features : NSArray, clap : CGRect, orientation : UIDeviceOrientation) {
         
-        var sublayers : NSArray = previewLayer.sublayers
-        var sublayersCount : Int = sublayers.count
+        let sublayers : NSArray = previewLayer.sublayers!
+        let sublayersCount : Int = sublayers.count
         var currentSublayer : Int = 0
-        var featuresCount : Int = features.count
+        //        var featuresCount : Int = features.count
         var currentFeature : Int = 0
         
         CATransaction.begin()
@@ -248,8 +246,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
             return
         }
         
-        var parentFrameSize : CGSize = previewView.frame.size
-        var gravity : NSString = previewLayer.videoGravity
+        let parentFrameSize : CGSize = previewView.frame.size
+        let gravity : NSString = previewLayer.videoGravity
         
         let previewBox : CGRect = ViewController.videoPreviewBoxForGravity(gravity, frameSize: parentFrameSize, apertureSize: clap.size)
         
@@ -299,12 +297,12 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
             // re-use an existing layer if possible
             while (featureLayer == nil) && (currentSublayer < sublayersCount) {
                 
-                var currentLayer : CALayer = sublayers.objectAtIndex(currentSublayer++) as! CALayer
+                let currentLayer : CALayer = sublayers.objectAtIndex(currentSublayer++) as! CALayer
                 
                 if currentLayer.name == nil {
                     continue
                 }
-                var name : NSString = currentLayer.name
+                let name : NSString = currentLayer.name!
                 if name.isEqualToString("FaceLayer") {
                     featureLayer = currentLayer;
                     currentLayer.hidden = false
@@ -316,7 +314,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
                 featureLayer = CALayer()
                 featureLayer?.contents = square.CGImage
                 featureLayer?.name = "FaceLayer"
-                previewLayer.addSublayer(featureLayer)
+                previewLayer.addSublayer(featureLayer!)
             }
             
             featureLayer?.frame = faceRect
