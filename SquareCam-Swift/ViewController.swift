@@ -176,7 +176,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
         var exifOrientation : Int
         
         enum DeviceOrientation : Int {
-            case PHOTOS_EXIF_0ROW_TOP_0COL_LEFT			= 1, //   1  =  0th row is at the top, and 0th column is on the left (THE DEFAULT).
+            case PHOTOS_EXIF_0ROW_TOP_0COL_LEFT		= 1, //   1  =  0th row is at the top, and 0th column is on the left (THE DEFAULT).
             PHOTOS_EXIF_0ROW_TOP_0COL_RIGHT			= 2, //   2  =  0th row is at the top, and 0th column is on the right.
             PHOTOS_EXIF_0ROW_BOTTOM_0COL_RIGHT      = 3, //   3  =  0th row is at the bottom, and 0th column is on the right.
             PHOTOS_EXIF_0ROW_BOTTOM_0COL_LEFT       = 4, //   4  =  0th row is at the bottom, and 0th column is on the left.
@@ -292,12 +292,18 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
             faceRect.origin.x *= widthScaleBy
             faceRect.origin.y *= heightScaleBy
             
-            faceRect = CGRectOffset(faceRect, previewBox.origin.x, previewBox.origin.y)
+            if isUsingFrontFacingCamera == true {
+                faceRect = CGRectOffset(faceRect, previewBox.origin.x + previewBox.size.width - faceRect.size.width - (faceRect.origin.x * 2), previewBox.origin.y);
+            } else {
+                faceRect = CGRectOffset(faceRect, previewBox.origin.x, previewBox.origin.y)
+            }
+            
             var featureLayer : CALayer? = nil
             // re-use an existing layer if possible
             while (featureLayer == nil) && (currentSublayer < sublayersCount) {
                 
-                let currentLayer : CALayer = sublayers.objectAtIndex(currentSublayer++) as! CALayer
+                let currentLayer : CALayer = sublayers.objectAtIndex(currentSublayer) as! CALayer
+                currentSublayer += 1
                 
                 if currentLayer.name == nil {
                     continue
@@ -319,7 +325,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate,  AVCaptureV
             
             featureLayer?.frame = faceRect
             
-            currentFeature++
+            currentFeature += 1
         }
         
         CATransaction.commit()
